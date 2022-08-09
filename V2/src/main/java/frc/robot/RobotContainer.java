@@ -6,9 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.setIntakeAngle;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -21,24 +19,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
   private final Intake intake = new Intake();
 
   private final XboxController xboxController = new XboxController(0);
   final JoystickButton aButton = new JoystickButton(xboxController, 1);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    aButton.whenPressed(new setIntakeAngle(new Rotation2d(Math.toRadians(100)), intake));//open the dribller
-    if(aButton.get()){
-      intake.setDribblerSpeed(1);
-    }
-    aButton.whenReleased(new setIntakeAngle(new Rotation2d(Math.toRadians(0)), intake));//close the dribller
-    if(!aButton.get()){
-      intake.setDribblerSpeed(0);
-    }
+    aButton.whenPressed(new setIntakeAngle(new Rotation2d(Math.toRadians(100)), intake, true));//open the dribllers
+    aButton.whenReleased(new setIntakeAngle(new Rotation2d(Math.toRadians(0)), intake, false));//close the dribller
   }
 
   /**
@@ -48,6 +36,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

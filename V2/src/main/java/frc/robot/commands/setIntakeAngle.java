@@ -17,11 +17,17 @@ public class setIntakeAngle extends CommandBase {
   private ArmFeedforward feedforward;
   private boolean inRange = false;
   /** Creates a new setIntakeAngle. */
-  public setIntakeAngle(Rotation2d wantedAngle, Intake intake) {
+  public setIntakeAngle(Rotation2d wantedAngle, Intake intake, boolean open) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
     this.wantedAngle = wantedAngle;
     this.intake = intake;
+    if(open){
+      intake.setDribblerSpeed(1);
+    }
+    else{
+      intake.setDribblerSpeed(0);
+    }
   }
 
   // Called when the command is initially scheduled.
