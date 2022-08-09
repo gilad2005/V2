@@ -38,6 +38,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     angleRotation2d = new Rotation2d(Units.degreesToRadians(((angleEncoder.getPosition() * 360)/Constants.IntakeVariables.angleGearRatio))); //updates the angle rotation 2d
+
   }
 
   public static Intake getInstance(){ //singelton method
