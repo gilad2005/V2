@@ -16,18 +16,22 @@ public final class Constants {
 
     public static final class IntakeVariables{
         public static final double angleGearRatio = 75;
-        public static final double kP = 0.04/angleGearRatio; 
-        public static final double kI = 0;
+        public static final double kP = 0.04; 
+        public static final double kI = 0.00001;
         public static final double kD = 0; 
-        public static final double kIz = 0; 
+        public static final double kIz = 0.2; 
         public static final double kFF = 0; 
         public static final double kMaxOutput = 0.6; 
-        public static final double kMinOutput = -0.35;
+        public static final double kMinOutput = -0.6;
         public static final double angleRange = 3;
-        public static int dribblerID = 50;
-        public static int angleMotorID = 51;
-        public static double FFValue = 0; //units are voltage
-        public static int PIDSlot = 0;
+        public static final int dribblerID = 50;
+        public static final int angleMotorID = 51;
+        public static final double FFValue = 0; //units are voltage
+        public static final int PIDSlot = 0;
+        public static final double intakeHomingSpeed = -0.1;
+        public static final double homingTime = 2.25; //units secoands
+        public static final double dribblerOpenSpeed = 0.6;
+        public static final double openAngle = 85;
     }
 
 

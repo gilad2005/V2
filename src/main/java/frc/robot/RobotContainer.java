@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.CloseIntakeAndHoming;
+import frc.robot.commands.IntakeHoming;
 import frc.robot.commands.SetIntakeAngle;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,11 +25,13 @@ public class RobotContainer {
 
   private final XboxController xboxController = new XboxController(0);
   final JoystickButton aButton = new JoystickButton(xboxController, 1);
+  final JoystickButton bButton = new JoystickButton(xboxController, 2);
   /** The container for the robot. Contains
    * subsystems, OI devices, and commands. */
   public RobotContainer() {
-    aButton.whenPressed(new SetIntakeAngle(intake,new Rotation2d(Math.toRadians(45)), true));//open the dribllers
-    aButton.whenReleased(new SetIntakeAngle(intake,new Rotation2d(Math.toRadians(15)), false));//close the dribller
+    aButton.whenPressed(new SetIntakeAngle(intake,new Rotation2d(Math.toRadians(Constants.IntakeVariables.openAngle)), true));//open the dribllers
+    aButton.whenReleased(new CloseIntakeAndHoming(intake));//close the dribller
+    bButton.whenPressed(new IntakeHoming(intake));
   }
 
   /**

@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 // TODO: on all methods, consider if they should be public/protected/private
+import frc.robot.MathUtil;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
@@ -42,9 +44,9 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     angleRotation2d = Rotation2d.fromDegrees((angleEncoder.getPosition() * 360) / Constants.IntakeVariables.angleGearRatio); //updates the angle rotation 2d
-    //System.out.println(angleRotation2d.getDegrees());
-    System.out.println("Current Rotation "+angleEncoder.getPosition());
-    System.out.println("Wanted Rotation"+ angleToRotation(45));
+    System.out.println(angleRotation2d.getDegrees());
+    //System.out.println("Current Rotation "+angleEncoder.getPosition());
+    System.out.println("motor set value: " + angleMotor.get());
   }
 
   public static Intake getInstance(){ //singelton method
@@ -67,7 +69,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setMotorToAngle(Rotation2d angle){
-    getAnglePIDController().setReference(angleToRotation(angle.getDegrees()), CANSparkMax.ControlType.kPosition, Constants.IntakeVariables.PIDSlot, getArbFF());
+    getAnglePIDController().setReference(angleToRotation(angle.getDegrees()), CANSparkMax.ControlType.kPosition, Constants.IntakeVariables.PIDSlot, getArbFF(), ArbFFUnits.kVoltage);
   }
 
   public void stopMotors(){
@@ -94,9 +96,17 @@ public class Intake extends SubsystemBase {
   public double getAngleMotorCurrent(){ 
     return this.angleMotor.getOutputCurrent();
   }
+
+  public void setAnglMotorPrecentOutput(double speed){
+    angleMotor.set(speed);
+  }
   
   private double getArbFF(){
     return feedforward.calculate(getAngleRotation2d().getRadians(), intake.getAngleMotorAngularVelocity()); //set the feed forward to be able to stay at a 
+  }
+
+  public boolean atAngleSetpoint(double wantedAngle){
+    return MathUtil.inRange(intake.getAngleRotation2d().getDegrees(), Constants.IntakeVariables.angleRange, wantedAngle);
   }
 
   private void configAngleMotor(){

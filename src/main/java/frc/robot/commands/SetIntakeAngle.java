@@ -7,32 +7,34 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.MathUtil;
 import frc.robot.subsystems.Intake;
 
 public class SetIntakeAngle extends CommandBase { 
   private Intake intake;
   private Rotation2d wantedAngle;
-
+  private boolean open = false;
   /** Creates a new setIntakeAngle. */
   public SetIntakeAngle(Intake intake, Rotation2d wantedAngle, boolean open) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
     this.wantedAngle = wantedAngle;
     this.intake = intake;
-    if(open){
-      intake.setDribblerSpeed(1);
-    }
-    else{
-      intake.setDribblerSpeed(0);
-    }
+    this.open = open;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.setMotorToAngle(wantedAngle);
-  }
+    if(open){
+      intake.setDribblerSpeed(Constants.IntakeVariables.dribblerOpenSpeed);
+    }
+    else if(intake.getAngleRotation2d().getDegrees() > 15){
+        intake.setDribblerSpeed(Constants.IntakeVariables.dribblerOpenSpeed);
+    }
+    else{
+      intake.setDribblerSpeed(0);
+      }
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -49,8 +51,9 @@ public class SetIntakeAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean inRange = MathUtil.inRange(intake.getAngleRotation2d().getDegrees(), Constants.IntakeVariables.angleRange, wantedAngle.getDegrees());
-    System.out.println("End");
-    return (inRange);
+    if(!open && intake.getAngleRotation2d().getDegrees() < 10){ //10 is the angle that its starts Homing
+      return true;
+    }
+    return false;
   }
 }
