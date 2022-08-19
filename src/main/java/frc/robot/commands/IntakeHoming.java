@@ -13,8 +13,9 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeHoming extends CommandBase {
   /** Creates a new IntakeHoming. */
-  Timer timer = new Timer();
+  private Timer timer = new Timer();
   private Intake intake;
+  private double angleMotorHoldingValue = -0.03;
   public IntakeHoming(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
@@ -38,7 +39,7 @@ public class IntakeHoming extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     intake.resetAngle(0);
-    intake.setAnglMotorPrecentOutput(-0.03);
+    intake.setAnglMotorPrecentOutput(angleMotorHoldingValue);
     System.out.println("End");
   }
 

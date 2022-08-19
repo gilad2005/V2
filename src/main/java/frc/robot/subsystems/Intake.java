@@ -10,13 +10,10 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
-
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
-//import edu.wpi.first.math.util.Units; // TODO: understand what you can do with this library
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-// TODO: on all methods, consider if they should be public/protected/private
 import frc.robot.MathUtil;
 
 public class Intake extends SubsystemBase {
@@ -28,6 +25,7 @@ public class Intake extends SubsystemBase {
   Rotation2d angleRotation2d;
   private SparkMaxPIDController angleMotorController;
   private ArmFeedforward feedforward;
+
   private Intake() { 
     feedforward = new ArmFeedforward(0, 0, 0, 0); // (0,Kcos,0,0) we only need to use Kcos
     angleMotor = new CANSparkMax(Constants.IntakeVariables.angleMotorID, MotorType.kBrushless);
@@ -73,8 +71,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void stopMotors(){
-    angleMotor.set(0);
-    dribbler.set(0);
+    angleMotor.stopMotor();
+    dribbler.stopMotor();
   }
 
   public void setDribblerSpeed(double speed){
@@ -85,7 +83,7 @@ public class Intake extends SubsystemBase {
     return this.angleEncoder.getVelocity(); //RPM
   }
 
-  public double getAngleMotorAngularVelocity(){ //TODO: check with LabVIEW code //Its not in LabView Cheak with Lidor
+  public double getAngleMotorAngularVelocity(){
     return (getAngleMotorRPM() / (2 * Math.PI)); //units rad per sec
   }
 

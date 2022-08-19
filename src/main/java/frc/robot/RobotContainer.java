@@ -5,14 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.CloseIntakeAndHoming;
-import frc.robot.commands.IntakeHoming;
 import frc.robot.commands.SetIntakeAngle;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -22,16 +18,27 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Intake intake = Intake.getInstance();
-
+  /* 
   private final XboxController xboxController = new XboxController(0);
-  final JoystickButton aButton = new JoystickButton(xboxController, 1);
-  final JoystickButton bButton = new JoystickButton(xboxController, 2);
+  private final PS4Controller ps4Controller = new PS4Controller(1);
+  final JoystickButton R2 = new JoystickButton(ps4Controller, 8);
+  final JoystickButton RT = new JoystickButton(xboxController, 10);
+  */
   /** The container for the robot. Contains
    * subsystems, OI devices, and commands. */
   public RobotContainer() {
-    aButton.whenPressed(new SetIntakeAngle(intake,new Rotation2d(Math.toRadians(Constants.IntakeVariables.openAngle)), true));//open the dribllers
-    aButton.whenReleased(new CloseIntakeAndHoming(intake));//close the dribller
-    bButton.whenPressed(new IntakeHoming(intake));
+    configurePS4Bindings();
+    configureXboxBindings();
+  }
+
+  private void configurePS4Bindings(){
+    Joysticks.PS4.R2.whenPressed(new SetIntakeAngle(intake,new Rotation2d(Math.toRadians(Constants.IntakeVariables.openAngle)), true));//open the dribllers
+    Joysticks.PS4.R2.whenReleased(new CloseIntakeAndHoming(intake));//close the dribller
+  }
+
+  private void configureXboxBindings(){
+    Joysticks.Xbox.RT.whenPressed(new SetIntakeAngle(intake,new Rotation2d(Math.toRadians(Constants.IntakeVariables.openAngle)), true));//open the dribllers
+    Joysticks.Xbox.RT.whenReleased(new CloseIntakeAndHoming(intake));//close the dribller
   }
 
   /**
