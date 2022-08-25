@@ -35,4 +35,20 @@ public final class Constants {
     }
 
 
+    public static final class Module1 {
+
+    }
+
+    public static final class Module2 {
+        
+    }
+
+    public static final class Module3 {
+        
+    }
+
+    public static final class Module4 {
+        
+    }
+
 }

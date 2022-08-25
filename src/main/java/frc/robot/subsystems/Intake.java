@@ -13,8 +13,8 @@ import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib1577.MathUtil;
 import frc.robot.Constants;
-import frc.robot.MathUtil;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
